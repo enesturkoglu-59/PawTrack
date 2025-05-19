@@ -11,6 +11,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.enesturkoglu.pawtrack.addpet.AddPetScreen
+import com.enesturkoglu.pawtrack.addpet.MyApp
 import com.enesturkoglu.pawtrack.addtask.AddTaskScreen
 import com.enesturkoglu.pawtrack.calendar.CalendarScreen
 import com.enesturkoglu.pawtrack.homescreen.PetTopAppBar
@@ -21,7 +23,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            CalendarScreen()
+            MyApp()
         }
     }
 }

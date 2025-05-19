@@ -24,6 +24,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import com.enesturkoglu.pawtrack.addpet.AddPetScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -78,11 +79,11 @@ Column {
         }
     ) { padding ->
         Box(modifier = Modifier
-            .padding(padding)
+            .padding()
             .fillMaxSize()) {
 
             when (selectedIndex) {
-                0 -> Text("Pet Screen")
+                //0 -> AddPetScreen()
                 1 -> Text("Diary Screen")
                 2 -> Text("Expense Screen")
                 3 -> Text("Calendar Screen")

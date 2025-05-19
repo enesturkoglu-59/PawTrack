@@ -1,5 +1,6 @@
 package com.enesturkoglu.pawtrack.addpet
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -35,14 +36,28 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.max
 import androidx.compose.ui.unit.sp
+import com.enesturkoglu.pawtrack.data.PetDatabaseInstance
+import com.enesturkoglu.pawtrack.data.PetEntity
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 @Composable
-fun AddPetScreen(){
+fun AddPetScreen(onPetAdded:()->Unit){
     var petName = remember { mutableStateOf("") }
+    var petAge  = remember { mutableStateOf("") }
+    var petKilo = remember { mutableStateOf("") }
+
+    val context = LocalContext.current
+    val db = remember { PetDatabaseInstance.getDatabase(context) }
+    val dao = db.petDao()
+
     Box(modifier =
     Modifier.fillMaxSize()
         .background(Color.Black)){
@@ -84,19 +99,35 @@ fun AddPetScreen(){
             Spacer(modifier = Modifier.height(15.dp))
             TextField(
                 modifier = Modifier.fillMaxWidth().padding(horizontal = 15.dp),
-                value = petName.value,
-                onValueChange = { petName.value = it },
-                label = { Text("Pet Name") }
+                value = petAge.value,
+                onValueChange = { petAge.value = it },
+                label = { Text("Pet Age") }
             )
             Spacer(modifier = Modifier.height(15.dp))
             TextField(
                 modifier = Modifier.fillMaxWidth().padding(horizontal = 15.dp),
-                value = petName.value,
-                onValueChange = { petName.value = it },
-                label = { Text("Pet Name") }
+                value = petKilo.value,
+                onValueChange = { petKilo.value = it },
+                label = { Text("Pet Kilo") }
             )
             Spacer(modifier = Modifier.height(15.dp))
-            Button(modifier = Modifier.size(width = 200.dp, height = 50.dp), onClick = {},   colors = ButtonDefaults.buttonColors(
+            Button(modifier = Modifier.size(width = 200.dp, height = 50.dp), onClick = { CoroutineScope(
+                Dispatchers.IO).launch {
+                dao.insertPet(
+                    PetEntity(
+                        name = petName.value,
+                        age = petAge.value,
+                        weight = petKilo.value
+                    )
+                )
+
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(context, "Başarıyla kaydedildi", Toast.LENGTH_SHORT).show()
+                    petName.value = ""
+                    petAge.value = ""
+                    petKilo.value = ""
+                }
+            }},   colors = ButtonDefaults.buttonColors(
                 containerColor = Color(0xFFFF5722), // arka plan rengi (yeşil)
                 contentColor = Color.White          // yazı/ikon rengi
             )) {
@@ -110,5 +141,5 @@ fun AddPetScreen(){
 @Preview
 @Composable
 fun TestAddpetScreen(){
-    AddPetScreen()
+
 }
