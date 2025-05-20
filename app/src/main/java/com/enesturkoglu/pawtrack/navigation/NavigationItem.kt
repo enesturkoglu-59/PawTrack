@@ -1,16 +1,20 @@
 package com.enesturkoglu.pawtrack.navigation
 
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.Polymorphic
+
+@Polymorphic
+@Serializable
+sealed interface Screen
+
 
 @Serializable
-    object PetList
+object AddPet : Screen
+
 @Serializable
-    object AddPet
+object Calendar : Screen
+
 @Serializable
-    object Diary
-@Serializable
-    object Expense
-@Serializable
-    object Calendar
-@Serializable
-    object Task
+object Task : Screen
+
