@@ -74,4 +74,6 @@ dependencies {
 
     // JSON serileştirme için
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3")
+
+    implementation ("com.google.accompanist:accompanist-permissions:0.34.0")
 }

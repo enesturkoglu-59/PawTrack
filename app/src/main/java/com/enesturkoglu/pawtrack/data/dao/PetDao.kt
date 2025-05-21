@@ -1,6 +1,7 @@
-package com.enesturkoglu.pawtrack.data
+package com.enesturkoglu.pawtrack.data.dao
 
 import androidx.room.*
+import com.enesturkoglu.pawtrack.data.model.PetEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao

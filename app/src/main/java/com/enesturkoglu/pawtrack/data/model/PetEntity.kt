@@ -1,4 +1,4 @@
-package com.enesturkoglu.pawtrack.data
+package com.enesturkoglu.pawtrack.data.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

@@ -8,7 +8,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.enesturkoglu.pawtrack.data.PetDatabaseInstance
-import com.enesturkoglu.pawtrack.data.PetEntity
+import com.enesturkoglu.pawtrack.data.model.PetEntity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
