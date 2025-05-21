@@ -49,30 +49,26 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 @Composable
-fun AddPetScreen(onPetAdded:()->Unit){
-    var petName = remember { mutableStateOf("") }
-    var petAge  = remember { mutableStateOf("") }
-    var petKilo = remember { mutableStateOf("") }
-
-    val context = LocalContext.current
-    val db = remember { PetDatabaseInstance.getDatabase(context) }
-    val dao = db.petDao()
-
-    Box(modifier =
-    Modifier.fillMaxSize()
-        .background(Color.Black)){
-        Column( horizontalAlignment = Alignment.CenterHorizontally) {
+fun AddPetScreen(
+    onPetAdded: () -> Unit,
+    viewModel: AddPetViewModel
+) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.Black)
+    ) {
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Spacer(modifier = Modifier.height(15.dp))
-            Box(modifier =
-            Modifier.size(120.dp)
-                .clip(CircleShape)
-                .background(Color.White)
-                ){
-
-            }
             Box(
                 modifier = Modifier
+                    .size(120.dp)
+                    .clip(CircleShape)
+                    .background(Color.White)
+            ) {}
 
+            Box(
+                modifier = Modifier
                     .offset(x = 45.dp, y = -40.dp)
                     .size(32.dp)
                     .clip(CircleShape)
@@ -89,48 +85,44 @@ fun AddPetScreen(onPetAdded:()->Unit){
                     modifier = Modifier.size(15.dp)
                 )
             }
+
             Spacer(modifier = Modifier.height(15.dp))
+
             TextField(
                 modifier = Modifier.fillMaxWidth().padding(horizontal = 15.dp),
-                value = petName.value,
-                onValueChange = { petName.value = it },
+                value = viewModel.petName,
+                onValueChange = { viewModel.petName = it },
                 label = { Text("Pet Name") }
             )
+
             Spacer(modifier = Modifier.height(15.dp))
+
             TextField(
                 modifier = Modifier.fillMaxWidth().padding(horizontal = 15.dp),
-                value = petAge.value,
-                onValueChange = { petAge.value = it },
+                value = viewModel.petAge,
+                onValueChange = { viewModel.petAge = it },
                 label = { Text("Pet Age") }
             )
+
             Spacer(modifier = Modifier.height(15.dp))
+
             TextField(
                 modifier = Modifier.fillMaxWidth().padding(horizontal = 15.dp),
-                value = petKilo.value,
-                onValueChange = { petKilo.value = it },
+                value = viewModel.petKilo,
+                onValueChange = { viewModel.petKilo = it },
                 label = { Text("Pet Kilo") }
             )
-            Spacer(modifier = Modifier.height(15.dp))
-            Button(modifier = Modifier.size(width = 200.dp, height = 50.dp), onClick = { CoroutineScope(
-                Dispatchers.IO).launch {
-                dao.insertPet(
-                    PetEntity(
-                        name = petName.value,
-                        age = petAge.value,
-                        weight = petKilo.value
-                    )
-                )
 
-                withContext(Dispatchers.Main) {
-                    Toast.makeText(context, "Başarıyla kaydedildi", Toast.LENGTH_SHORT).show()
-                    petName.value = ""
-                    petAge.value = ""
-                    petKilo.value = ""
-                }
-            }},   colors = ButtonDefaults.buttonColors(
-                containerColor = Color(0xFFFF5722), // arka plan rengi (yeşil)
-                contentColor = Color.White          // yazı/ikon rengi
-            )) {
+            Spacer(modifier = Modifier.height(15.dp))
+
+            Button(
+                modifier = Modifier.size(width = 200.dp, height = 50.dp),
+                onClick = { viewModel.insertPet(onPetAdded) },
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color(0xFFFF5722),
+                    contentColor = Color.White
+                )
+            ) {
                 Text("Save")
             }
         }
@@ -138,8 +130,4 @@ fun AddPetScreen(onPetAdded:()->Unit){
 }
 
 
-@Preview
-@Composable
-fun TestAddpetScreen(){
 
-}
